@@ -1,14 +1,15 @@
 import numpy as np
+from markov import Markov
 from PIL import Image
 
-img = Image.open('example.jpg')
-data = np.asarray(img)
+def main():
+    img = Image.open('example.jpg')
+    data = np.asarray(img)
 
-chain = int(data.size * 0.2)
+    c = Markov(data, 0.2)
+    c.create_chain()
+    
+    print(c.chain)
 
-plain = [k for i in data for j in i for k in j ]
-
-markov = {}
-
-for pix in plain:
-    pass
+if __name__ == "__main__":
+    main()
