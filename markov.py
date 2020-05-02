@@ -1,15 +1,17 @@
 import numpy as np
 import random as rnd
+from PIL import Image
 
 
 class Markov():
 
-    def __init__(self, img, ngram):
-        self.img = img
-        self.ngram = ngram
-        self.chain = {}
-        self.plain = [ k for i in img for j in i for k in j ]
+    def __init__(self, img):
+        tmp = Image.open(img)
+        data = np.asarray(tmp)
 
+        self.img = data
+        self.plain = [ k for i in self.img for j in i for k in j ]
+        self.chain = {}
 
     def create_chain(self):
         for i in range(0, len(self.plain), 3):
@@ -19,7 +21,6 @@ class Markov():
                 self.chain[pix] = []
             
             self.chain[pix].append(Markov.pix_str(self.plain[i+3:i+6]))
-
 
     def generate_image(self):
         start = rnd.choice(list(self.chain.keys()))
@@ -37,7 +38,6 @@ class Markov():
 
         return self._to_matrix(result)
 
-
     def _to_matrix(self, arr):
         matrix = []
         for i in range(500):
@@ -47,12 +47,10 @@ class Markov():
             matrix.append(row)
         return np.array(matrix, dtype=np.uint8)
 
-
     @staticmethod
     def pix_str(pixels):
         p = map(lambda x: str(x), pixels)
         return ','.join(p)
-
 
     @staticmethod
     def pix_arr(pix):

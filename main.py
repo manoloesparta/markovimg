@@ -3,10 +3,7 @@ from markov import Markov
 from PIL import Image
 
 def main():
-    img = Image.open('we.jpg')
-    data = np.asarray(img)
-
-    c = Markov(data, 3)
+    c = Markov('we.jpg')
     c.create_chain()
     gen = c.generate_image()
     x = Image.fromarray(gen, mode='RGB')
