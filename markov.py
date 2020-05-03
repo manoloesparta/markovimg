@@ -22,7 +22,7 @@ class Markov():
             
             self.chain[pix].append(Markov.pix_str(self.plain[i+3:i+6]))
 
-    def generate_image(self):
+    def generate_image(self, save):
         start = rnd.choice(list(self.chain.keys()))
         result = []
 
@@ -36,7 +36,8 @@ class Markov():
             start = chosen
             result.append(Markov.pix_arr(start))
 
-        return self._to_matrix(result)
+        img = Image.fromarray(self._to_matrix(result), mode='RGB')
+        img.save(save)
 
     def _to_matrix(self, arr):
         matrix = []
