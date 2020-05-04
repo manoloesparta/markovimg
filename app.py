@@ -5,9 +5,9 @@ from werkzeug.utils import secure_filename
 from flask import Flask, request, render_template, redirect, url_for, send_file
 
 UPLOAD_FOLDER = 'files/'
-ALLOWED_EXTENSIONS = {'jpg', 'jpeg', 'png'}
+ALLOWED_EXTENSIONS = {'jpg', 'jpeg'}
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 FINAL_IMG = os.path.join(app.config['UPLOAD_FOLDER'], 'tmp.jpg')
 
@@ -25,7 +25,7 @@ def upload():
         if file_allowed(file.filename):
             file.save(FINAL_IMG)
             return redirect(url_for('view'))
-    return 'Upload only jpg or png files'
+    return 'Upload only jpg files'
 
 @app.route('/view', methods=['GET'])
 def view():
